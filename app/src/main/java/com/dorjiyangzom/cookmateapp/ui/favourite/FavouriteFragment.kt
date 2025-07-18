@@ -1,4 +1,4 @@
-package com.dorjiyangzom.cookmate.ui.favourite
+package com.dorjiyangzom.cookmateapp.ui.favourite
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.dorjiyangzom.cookmate.databinding.FragmentFavouriteBinding
+import com.dorjiyangzom.cookmateapp.databinding.FragmentFavouriteBinding
 
 class FavouriteFragment : Fragment() {
 

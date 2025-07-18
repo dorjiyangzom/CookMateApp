@@ -1,4 +1,4 @@
-package com.dorjiyangzom.cookmate.ui.profile
+package com.dorjiyangzom.cookmateapp.ui.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

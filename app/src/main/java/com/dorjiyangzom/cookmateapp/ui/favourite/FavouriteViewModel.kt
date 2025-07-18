@@ -1,13 +1,13 @@
-package com.dorjiyangzom.cookmate.ui.home
+package com.dorjiyangzom.cookmateapp.ui.favourite
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class HomeViewModel : ViewModel() {
+class FavouriteViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+        value = "This is Favourite Fragment"
     }
     val text: LiveData<String> = _text
 }

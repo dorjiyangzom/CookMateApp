@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.dorjiyangzom.cookmate"
+    namespace = "com.dorjiyangzom.cookmateapp"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.dorjiyangzom.cookmate"
+        applicationId = "com.dorjiyangzom.cookmateapp"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
