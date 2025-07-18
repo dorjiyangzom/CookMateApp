@@ -1,4 +1,4 @@
-package com.dorjiyangzom.cookmateapp
+package com.dorjiyangzom.cookmate
 
 import org.junit.Test
 

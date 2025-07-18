@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">CookMateApp</string>
+    <string name="app_name">CookMate</string>
+    <string name="title_home">Home</string>
+    <string name="title_favourite">Favourite</string>
+    <string name="title_profile">Profile</string>
+    <string name="hi_dorji">Hi Dorji</string>
 </resources>

@@ -19,6 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "CookMateApp"
+rootProject.name = "CookMate"
 include(":app")
- 
