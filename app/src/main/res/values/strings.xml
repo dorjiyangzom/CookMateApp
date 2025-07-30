@@ -1,7 +1,13 @@
 <resources>
-    <string name="app_name">CookMate</string>
+    <string name="app_name">My Application</string>
     <string name="title_home">Home</string>
-    <string name="title_favourite">Favourite</string>
-    <string name="title_profile">Profile</string>
-    <string name="hi_dorji">Hi Dorji</string>
+    <string name="title_favorites">Favorites</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="instructions_label">- Instructions :</string>
+    <string name="area_info">Area: %1$s</string>
+    <string name="category_info">Category: %1$s</string>
+    <string name="no_meal_details_found">No details found for this meal</string>
+    <string name="meal_deleted">Meal was deleted</string>
+    <string name="meal_saved">Meal saved</string>
+
 </resources>

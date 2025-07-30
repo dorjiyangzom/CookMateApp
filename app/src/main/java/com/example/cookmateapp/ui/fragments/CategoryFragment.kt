@@ -1,0 +1,67 @@
+package com.dorjiyangzom.cookmateapp.ui.fragments
+
+import android.content.Intent
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import com.dorjiyangzom.cookmateapp.R
+import com.dorjiyangzom.cookmateapp.adapters.CategoriesRecyclerAdapter
+import com.dorjiyangzom.cookmateapp.data.pojo.Category
+import com.dorjiyangzom.cookmateapp.databinding.FragmentCategoryBinding
+import com.dorjiyangzom.cookmateapp.mvvm.CategoryMVVM
+import com.dorjiyangzom.cookmateapp.ui.activites.MealActivity
+import com.dorjiyangzom.cookmateapp.ui.fragments.HomeFragment.Companion.CATEGORY_NAME
+
+class CategoryFragment : Fragment(R.layout.fragment_category) {
+    private lateinit var binding: FragmentCategoryBinding
+    private lateinit var myAdapter: CategoriesRecyclerAdapter
+    private lateinit var categoryMvvm: CategoryMVVM
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        myAdapter = CategoriesRecyclerAdapter()
+        categoryMvvm = ViewModelProvider(this)[CategoryMVVM::class.java]
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentCategoryBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        prepareRecyclerView()
+        observeCategories()
+        onCategoryClick()
+    }
+
+    private fun onCategoryClick() {
+        myAdapter.onItemClicked(object : CategoriesRecyclerAdapter.OnItemCategoryClicked {
+            override fun onClickListener(category: Category) {
+                val intent = Intent(context, MealActivity::class.java)
+                intent.putExtra(CATEGORY_NAME, category.strCategory)
+                startActivity(intent)
+            }
+        })
+    }
+
+    private fun observeCategories() {
+        categoryMvvm.observeCategories().observe(viewLifecycleOwner) { categories ->
+            categories?.let { myAdapter.setCategoryList(it) }
+        }
+    }
+
+    private fun prepareRecyclerView() {
+        binding.favoriteRecyclerView.apply {
+            adapter = myAdapter
+            layoutManager = GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
+        }
+    }
+}
