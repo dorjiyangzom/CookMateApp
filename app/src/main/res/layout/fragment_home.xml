@@ -10,7 +10,10 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        app:layout_constraintStart_toStartOf="@+id/root_home"
+        app:layout_constraintTop_toTopOf="@+id/root_home"
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -21,7 +24,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/contraint"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                >
 
                 <LinearLayout
                     android:id="@+id/header"
@@ -31,15 +35,15 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="20dp"
                     android:orientation="horizontal"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintStart_toStartOf="@+id/contraint"
+                    app:layout_constraintTop_toTopOf="@+id/contraint">
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/tv_would_like_to_eat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="104dp"
                     android:text="What would you like to eat"
                     android:textColor="@color/black"
                     android:textSize="20sp"
@@ -65,8 +69,7 @@
                         android:id="@+id/img_random_meal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/outline_feature_search_24" />
+                        android:scaleType="centerCrop"/>
                 </androidx.cardview.widget.CardView>
 
                 <TextView
@@ -125,8 +128,4 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
-
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
