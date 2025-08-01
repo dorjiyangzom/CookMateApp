@@ -50,7 +50,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/myfont"
-                        android:text="Home"
+                        android:text="Hi Mate"
                         android:textColor="@color/accent"
                         android:textSize="25sp"
                         android:textStyle="bold" />
