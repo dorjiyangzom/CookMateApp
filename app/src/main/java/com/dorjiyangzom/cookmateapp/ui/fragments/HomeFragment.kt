@@ -1,0 +1,213 @@
+package com.dorjiyangzom.cookmateapp.ui.fragments
+
+import android.content.Intent
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
+import com.dorjiyangzom.cookmateapp.R
+import com.dorjiyangzom.cookmateapp.adapters.CategoriesRecyclerAdapter
+import com.dorjiyangzom.cookmateapp.adapters.MostPopularRecyclerAdapter
+import com.dorjiyangzom.cookmateapp.adapters.OnItemClick
+import com.dorjiyangzom.cookmateapp.adapters.OnLongItemClick
+import com.dorjiyangzom.cookmateapp.data.pojo.*
+import com.dorjiyangzom.cookmateapp.databinding.FragmentHomeBinding
+import com.dorjiyangzom.cookmateapp.mvvm.DetailsMVVM
+import com.dorjiyangzom.cookmateapp.mvvm.MainFragMVVM
+import com.dorjiyangzom.cookmateapp.ui.activites.MealActivity
+import com.dorjiyangzom.cookmateapp.ui.MealBottomDialog
+import com.dorjiyangzom.cookmateapp.ui.activites.MealDetailesActivity
+import com.dorjiyangzom.cookmateapp.data.pojo.Meal
+import kotlin.jvm.java
+
+class HomeFragment : Fragment(R.layout.fragment_home) {
+    private lateinit var meal: RandomMealResponse
+    private lateinit var detailMvvm: DetailsMVVM
+    private var randomMealId = ""
+
+    companion object {
+        const val MEAL_ID = "com.drojiyangzom.cookmateapp.ui.fragments.idMeal"
+        const val MEAL_NAME = "com.dorjiyangzom.cookmateapp.ui.fragments.nameMeal"
+        const val MEAL_THUMB = "com.dorjiyangzom.cookmateapp.ui.fragments.thumbMeal"
+        const val CATEGORY_NAME = "com.dorjiyangzom.cookmateapp.ui.fragments.categoryName"
+        const val MEAL_STR = "com.dorjiyangzom.cookmateapp.ui.fragments.strMeal"
+        const val MEAL_AREA = "com.dorjiyangzom.cookmateapp.ui.fragments.strArea"
+    }
+
+    private lateinit var myAdapter: CategoriesRecyclerAdapter
+    private lateinit var mostPopularFoodAdapter: MostPopularRecyclerAdapter
+    lateinit var binding: FragmentHomeBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        detailMvvm = ViewModelProvider(this)[DetailsMVVM::class.java]
+        binding = FragmentHomeBinding.inflate(layoutInflater)
+        myAdapter = CategoriesRecyclerAdapter()
+        mostPopularFoodAdapter = MostPopularRecyclerAdapter()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val mainFragMVVM = ViewModelProvider(this)[MainFragMVVM::class.java]
+        showLoadingCase()
+
+        prepareCategoryRecyclerView()
+        preparePopularMeals()
+        onRndomMealClick()
+        onRandomLongClick()
+
+        mainFragMVVM.observeMealByCategory().observe(viewLifecycleOwner) { t ->
+            t?.meals?.let { meals ->
+                setMealsByCategoryAdapter(meals)
+                cancelLoadingCase()
+            }
+        }
+
+        mainFragMVVM.observeCategories().observe(viewLifecycleOwner) { t ->
+            t?.categories?.let { categories ->
+                setCategoryAdapter(categories)
+            }
+        }
+
+        mainFragMVVM.observeRandomMeal().observe(viewLifecycleOwner) { t ->
+            t?.let {
+                val mealImage = view.findViewById<ImageView>(R.id.img_random_meal)
+                val imageUrl = it.meals[0].strMealThumb
+                randomMealId = it.meals[0].idMeal
+                Glide.with(this@HomeFragment)
+                    .load(imageUrl)
+                    .into(mealImage)
+                meal = it
+            }
+        }
+
+        mostPopularFoodAdapter.setOnClickListener(object : OnItemClick {
+            override fun onItemClick(meal: Meal) {
+                val intent = Intent(activity, MealDetailesActivity::class.java)
+                intent.putExtra(MEAL_ID, meal.idMeal)
+                intent.putExtra(MEAL_STR, meal.strMeal)
+                intent.putExtra(MEAL_THUMB, meal.strMealThumb)
+                startActivity(intent)
+            }
+        })
+
+        myAdapter.onItemClicked(object : CategoriesRecyclerAdapter.OnItemCategoryClicked {
+            override fun onClickListener(category: Category) {
+                val intent = Intent(activity, MealActivity::class.java)
+                intent.putExtra(CATEGORY_NAME, category.strCategory)
+                startActivity(intent)
+            }
+        })
+
+        mostPopularFoodAdapter.setOnLongCLickListener(object : OnLongItemClick {
+            override fun onItemLongClick(meal: Meal) {
+                detailMvvm.getMealByIdBottomSheet(meal.idMeal)
+            }
+        })
+
+        detailMvvm.observeMealBottomSheet().observe(viewLifecycleOwner) { t ->
+            t?.let {
+                val bottomSheetFragment = MealBottomDialog()
+                val b = Bundle().apply {
+                    putString(CATEGORY_NAME, it[0].strCategory)
+                    putString(MEAL_AREA, it[0].strArea)
+                    putString(MEAL_NAME, it[0].strMeal)
+                    putString(MEAL_THUMB, it[0].strMealThumb)
+                    putString(MEAL_ID, it[0].idMeal)
+                }
+                bottomSheetFragment.arguments = b
+                bottomSheetFragment.show(childFragmentManager, "BottomSheetDialog")
+            }
+        }
+
+        binding.imgSearch.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
+        }
+    }
+
+    private fun onRndomMealClick() {
+        binding.randomMeal.setOnClickListener {
+            val temp = meal.meals[0]
+            val intent = Intent(activity, MealDetailesActivity::class.java)
+            intent.putExtra(MEAL_ID, temp.idMeal)
+            intent.putExtra(MEAL_STR, temp.strMeal)
+            intent.putExtra(MEAL_THUMB, temp.strMealThumb)
+            startActivity(intent)
+        }
+    }
+
+    private fun onRandomLongClick() {
+        binding.randomMeal.setOnLongClickListener {
+            detailMvvm.getMealByIdBottomSheet(randomMealId)
+            true
+        }
+    }
+
+    private fun showLoadingCase() {
+        binding.apply {
+            header.visibility = View.INVISIBLE
+            tvWouldLikeToEat.visibility = View.INVISIBLE
+            randomMeal.visibility = View.INVISIBLE
+            tvOverPupItems.visibility = View.INVISIBLE
+            recViewMealsPopular.visibility = View.INVISIBLE
+            tvCategory.visibility = View.INVISIBLE
+            categoryCard.visibility = View.INVISIBLE
+            loadingGif.visibility = View.VISIBLE
+            rootHome.setBackgroundColor(
+                ContextCompat.getColor(requireContext(), R.color.g_loading)
+            )
+        }
+    }
+
+    private fun cancelLoadingCase() {
+        binding.apply {
+            header.visibility = View.VISIBLE
+            tvWouldLikeToEat.visibility = View.VISIBLE
+            randomMeal.visibility = View.VISIBLE
+            tvOverPupItems.visibility = View.VISIBLE
+            recViewMealsPopular.visibility = View.VISIBLE
+            tvCategory.visibility = View.VISIBLE
+            categoryCard.visibility = View.VISIBLE
+            loadingGif.visibility = View.INVISIBLE
+            rootHome.setBackgroundColor(
+                ContextCompat.getColor(requireContext(), R.color.white)
+            )
+        }
+    }
+
+    private fun setMealsByCategoryAdapter(meals: List<Meal>) {
+        mostPopularFoodAdapter.setMealList(meals)
+    }
+
+    private fun setCategoryAdapter(categories: List<Category>) {
+        myAdapter.setCategoryList(categories)
+    }
+
+    private fun prepareCategoryRecyclerView() {
+        binding.recyclerView.apply {
+            adapter = myAdapter
+            layoutManager = GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
+        }
+    }
+
+    private fun preparePopularMeals() {
+        binding.recViewMealsPopular.apply {
+            adapter = mostPopularFoodAdapter
+            layoutManager = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
+        }
+    }
+}

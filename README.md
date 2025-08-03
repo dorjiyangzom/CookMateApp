@@ -28,8 +28,16 @@ and **save favorites** for quick access — all in a clean, easy-to-use interfac
 ---
 
 ## 📸 Screenshots
+<p align="center">
+   <img src="https://github.com/dorjiyangzom/CookMateApp/blob/feature/homepage/app_image/app6.jpeg" alt="CookMate Logo" width="200" height="400"/>
+   <img src="https://github.com/dorjiyangzom/CookMateApp/blob/feature/homepage/app_image/app7.jpeg" alt="CookMate Logo" width="200" height="400"/>
+   <img src="https://github.com/dorjiyangzom/CookMateApp/blob/feature/homepage/app_image/app1.jpeg" alt="CookMate Logo" width="200" height="400"/>
+   <img src="https://github.com/dorjiyangzom/CookMateApp/blob/feature/homepage/app_image/app2.jpeg" alt="CookMate Logo" width="200" height="400"/> 
+   <img src="https://github.com/dorjiyangzom/CookMateApp/blob/feature/homepage/app_image/app3.jpeg" alt="CookMate Logo" width="200" height="400"/>
+   <img src="https://github.com/dorjiyangzom/CookMateApp/blob/feature/homepage/app_image/app4.jpeg" alt="CookMate Logo" width="200" height="400"/>
+   <img src="https://github.com/dorjiyangzom/CookMateApp/blob/feature/homepage/app_image/app5.jpeg" alt="CookMate Logo" width="200" height="400"/>
 
----
+</p>
 
 ## 🚀 Getting Started
 
@@ -41,4 +49,4 @@ and **save favorites** for quick access — all in a clean, easy-to-use interfac
 ### Installation
 1. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/cookmate.git
+   git clone https://github.com/dorjiyangzom/CookMateApp.git
