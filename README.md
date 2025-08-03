@@ -28,6 +28,7 @@ and **save favorites** for quick access — all in a clean, easy-to-use interfac
 ---
 
 ## 📸 Screenshots
+![CookMate Logo](https://github.com/dorjiyangzom/CookMateApp/blob/feature/homepage/app_image/app1.jpeg)
 
 ---
 
