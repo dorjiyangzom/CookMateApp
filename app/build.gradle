@@ -116,6 +116,8 @@ dependencies {
 
     // LiveData testing
     androidTestImplementation "androidx.arch.core:core-testing:2.2.0"
+    testImplementation "androidx.arch.core:core-testing:2.2.0"
+
 
     // Kotlin test helpers
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:1.9.0"
